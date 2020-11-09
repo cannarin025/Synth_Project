@@ -3,15 +3,16 @@
 global Keypad_Init, Keypad_Loop
 extrn  LCD_Setup, LCD_Send_Byte_D, LCD_Clear
     
-psect    udata_acs   ; named variables in access ram
-delay_curr:	    ds 1   ; reserve 1 byte for current counter val
-delay_count1:	    ds 1   ; reserve 1 byte for counting
-delay_count2:	    ds 1   ; reserve 1 byte for counting
-delay_count3:	    ds 1   ; reserve 1 byte for counting
+psect    udata_acs	    ; named variables in access ram
+delay_curr:	    ds 1    ; reserve 1 byte for current counter val
+delay_count1:	    ds 1    ; reserve 1 byte for counting
+delay_count2:	    ds 1    ; reserve 1 byte for counting
+delay_count3:	    ds 1    ; reserve 1 byte for counting
 wtemp:		    ds 1    ; reserve 1 byte for temp w val
-keypadrowbits:	    ds 1
-keypadcolbits:	    ds 1
-keypadlastkey:	    ds 1
+    
+keypadrowbits:	    ds 1    ; reserve 1 byte for keypad row value
+keypadcolbits:	    ds 1    ; reserve 1 byte for keypad column value
+keypadlastkey:	    ds 1    ; reserve 1 byte for last value fo keypad
     
 psect    Keypad_code, class=CODE
 
@@ -51,12 +52,12 @@ Keypad_Read_Col:
     return
     
 Keypad_Get_Output:
-    movf    keypadrowbits, W, A	;loads 0x08 (rows) into W
-    ADDWF   0x02, A	;performs addition of rows with 0x09 (columns)
+    movf    keypadrowbits, W, A		    ; loads row bits into W
+    ADDWF   0x02, A			    ; performs addition of rows with column bits
     movf    keypadcolbits, W, A
     cpfseq  keypadlastkey, A
-    movff   keypadlastkey, PORTJ ;outputs row (dim) in 1st 4 bits and col (dim) in last 4 bits
-    movff   keypadcolbits, keypadlastkey	;stores number from "last cycle" to avoid repeat entries (if it is not the same as previous number)
+    movff   keypadlastkey, PORTJ	    ; outputs row (dim) in 1st 4 bits and col (dim) in last 4 bits
+    movff   keypadcolbits, keypadlastkey    ; stores number from "last cycle" to avoid repeat entries (if it is not the same as previous number)
     return
     
 Keypad_Loop:
