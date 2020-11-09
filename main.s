@@ -12,3 +12,5 @@ start:
 	
     
 	end main
+	
+;yor mom gey
