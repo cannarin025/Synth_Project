@@ -1,6 +1,6 @@
 #include <xc.inc>
  
-global Keypad_Init, Keypad_Loop
+global envstart
     
 psect    udata_acs	    ; named variables in access ram
 envelope:	    ds 1    ; reserve 1 byte for current volume envelope val
@@ -19,9 +19,7 @@ Dlength:	    ds 1    ; reserve 1 byte for the delay time
 Rlength:	    ds 1    ; reserve 1 byte for the release time
 
     
-psect    Keypad_code, class=CODE
-    
-; need to write envdelay to take w and delay by it
+psect    Envelope_code, class=CODE
     
 increnv:
     incf    envelope, F, A
