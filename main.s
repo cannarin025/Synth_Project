@@ -1,6 +1,8 @@
 	#include <pic18_chip_select.inc>
 	#include <xc.inc>
 
+extrn	Keypad
+	
 psect	code, abs
 	
 main:
