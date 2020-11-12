@@ -1,8 +1,8 @@
 	#include <pic18_chip_select.inc>
 	#include <xc.inc>
-
-extrn	Keypad
 	
+extrn sawloop	
+
 psect	code, abs
 	
 main:
@@ -12,5 +12,7 @@ main:
 	org	0x100		    ; Main code starts here at address 0x100
 start:
 	
+    call	sawloop
+    goto	$
     
 	end main
