@@ -57,7 +57,7 @@ sustaincheck:
     bra	    Sdecrenv
     
 delaycheck:
-    cpfseq  ;KEY RELEASED
+    ;cpfseq  ;KEY RELEASED
     bra	    delaycheck
 
 releasecheck:

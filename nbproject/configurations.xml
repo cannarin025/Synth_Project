@@ -15,6 +15,8 @@
       <itemPath>main.s</itemPath>
       <itemPath>config.s</itemPath>
       <itemPath>Linear_Envelope.s</itemPath>
+      <itemPath>Keypad.s</itemPath>
+      <itemPath>DAC_Interrupt.s</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -34,7 +36,7 @@
         <platformTool>Simulator</platformTool>
         <languageToolchain>pic-as</languageToolchain>
         <languageToolchainVersion>2.30</languageToolchainVersion>
-        <platform>4</platform>
+        <platform>3</platform>
       </toolsSet>
       <packs>
         <pack name="PIC18F-K_DFP" vendor="Microchip" version="1.4.87"/>

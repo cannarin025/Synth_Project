@@ -1,14 +1,15 @@
-	#include <pic18_chip_select.inc>
-	#include <xc.inc>
+#include <xc.inc>
+
+extrn	DAC_Setup, DAC_Int_Hi
 
 psect	code, abs
-	
-main:
-	org	0x0
+rst:	org	0x0000	; reset vector
 	goto	start
 
-	org	0x100		    ; Main code starts here at address 0x100
-start:
+int_hi:	org	0x0008	; high vector, no low vector
+	goto	DAC_Int_Hi
 	
-    
-	end main
+start:	call	DAC_Setup
+	goto	$	; Sit in infinite loop
+
+	end	rst
