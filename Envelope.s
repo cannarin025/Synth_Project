@@ -57,11 +57,11 @@ sustaincheck:
     bra	    Sdecrenv
     
 delaycheck:
-    cpfseq  ;KEY RELEASED
+;    cpfseq  ;KEY RELEASED
     bra	    delaycheck
 
 releasecheck:
-    movf    envelope
+    movf    envelope, W, A
     cpfseq  Rcompare, A
     bra	    Rdecrenv
     
