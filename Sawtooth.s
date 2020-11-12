@@ -1,9 +1,4 @@
-
-    
-    
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    
-    #include <xc.inc>
+#include <xc.inc>
  
 global Keypad_Init, Keypad_Loop
     
