@@ -239,36 +239,36 @@ check_F:
 
     return
 
-;delay:
-;    movwf   wtemp, A
-;    movlw   0x00
-;    movwf   delay_curr, A
-;    incf    delay_curr, F, A        ; set f00 = f00 + 1
-;    movlw   0xfd            ; set W = 256 (timer)
-;    movwf   delay_count1, A            ; set timer f06 = W (=256)
-;    movlw   0x2b
-;    movwf   delay_count2, A            ; set timer f07 = W (=256)
-;    movlw   0x52            ; set W = 80
-;    movwf   delay_count3, A            ; set timer f08 = W (=80)
-;    call    delay            ; run the delay
-;    movf    wtemp, W, A
-;    return
-   
-;delay:
-;    decfsz  delay_count1, A            ; decrement f02 and skip next if f02 = 0
-;    bra	    delay
-;    decfsz  delay_count2, A            ; decrement f02 and skip next if f02 = 0
-;    bra	    delay
-;    decfsz  delay_count3, A            ; decrement f02 and skip next if f02 = 0
-;    bra	    delay
-;    return
-    
 delay:
-    movlw   0xFF
-    movwf   shortdelay, A
-    call    delay_loop
+    movwf   wtemp, A
+    movlw   0x00
+    movwf   delay_curr, A
+    incf    delay_curr, F, A        ; set f00 = f00 + 1
+    movlw   0xfd            ; set W = 256 (timer)
+    movwf   delay_count1, A            ; set timer f06 = W (=256)
+    movlw   0x2b
+    movwf   delay_count2, A            ; set timer f07 = W (=256)
+    movlw   0x52            ; set W = 80
+    movwf   delay_count3, A            ; set timer f08 = W (=80)
+    call    delay            ; run the delay
+    movf    wtemp, W, A
+    return
+   
 delay_loop:
-    decfsz  shortdelay, A
+    decfsz  delay_count1, A            ; decrement f02 and skip next if f02 = 0
+    bra	    delay_loop
+    decfsz  delay_count2, A            ; decrement f02 and skip next if f02 = 0
+    bra	    delay_loop
+    decfsz  delay_count3, A            ; decrement f02 and skip next if f02 = 0
     bra	    delay_loop
     return
     
+;delay:
+;    movlw   0xFF
+;    movwf   shortdelay, A
+;    call    delay_loop
+;delay_loop:
+;    decfsz  shortdelay, A
+;    bra	    delay_loop
+;    return
+;    

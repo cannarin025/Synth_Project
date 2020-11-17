@@ -1,7 +1,7 @@
 	#include <pic18_chip_select.inc>
 	#include <xc.inc>
 	
-extrn sawloop	
+extrn intchk_hi,Keypad_Loop,Keypad_Init
 
 psect	code, abs
 	
@@ -20,8 +20,12 @@ int_hi:
 ;    goto	intchk_lo
 	
 start:
-	
+    call	Keypad_Init
+    
+loop:
     call	Keypad_Loop
+    bra		start
+    
     goto	$
     
     end main
