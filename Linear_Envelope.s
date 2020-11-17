@@ -61,7 +61,7 @@ delaycheck:
     bra	    delaycheck
 
 releasecheck:
-    movf    envelope
+    movf    envelope, A
     cpfseq  Rcompare, A
     bra	    Rdecrenv
     

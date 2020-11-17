@@ -1,15 +1,13 @@
-#include <xc.inc>
-
-extrn	DAC_Setup, DAC_Int_Hi
-
+	#include <xc.inc>
+	extrn PWM_setup, PWM_setup2
 psect	code, abs
-rst:	org	0x0000	; reset vector
+	
+main:
+	org	0x0
 	goto	start
 
-int_hi:	org	0x0008	; high vector, no low vector
-	goto	DAC_Int_Hi
-	
-start:	call	DAC_Setup
-	goto	$	; Sit in infinite loop
-
-	end	rst
+	org	0x100		    ; Main code starts here at address 0x100
+start:
+	call	PWM_setup2
+	bra	start
+	goto $
