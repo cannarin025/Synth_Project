@@ -66,13 +66,13 @@ Keypad_Loop:
     movlw   0xFF
     cpfseq  PORTJ, A
     call    check_0
-    bra	    Keypad_Loop
+;    bra	    Keypad_Loop
+    return
 
 check_0:
     movlw   0xBE    ;corresponds to keypress 0
     cpfseq  PORTJ, A
-    bra    check_1
-    
+    bra    check_1    
     ;do things if button corresponds to 1
     movlw   0x00    ;displays button value on portH
     movwf   PORTH, A  
