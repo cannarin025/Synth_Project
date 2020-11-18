@@ -15,9 +15,10 @@
       <itemPath>main.s</itemPath>
       <itemPath>config.s</itemPath>
       <itemPath>Linear_Envelope.s</itemPath>
-      <itemPath>Keypad.s</itemPath>
       <itemPath>DAC_Interrupt.s</itemPath>
       <itemPath>PWM.s</itemPath>
+      <itemPath>Synth_Keypad.s</itemPath>
+      <itemPath>Interrupt.s</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
