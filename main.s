@@ -1,6 +1,6 @@
 	#include <xc.inc>
 	
-extrn intchk_hi,Keypad_Loop,Keypad_Init
+extrn intchk_hi,Keypad_Loop,Keypad_Init, PWM_setup2
 
 psect	code, abs
 	
@@ -19,6 +19,7 @@ int_hi:
 ;    goto	intchk_lo
 	
 start:
+    call	PWM_setup2
     call	Keypad_Init
     
 loop:
@@ -26,8 +27,3 @@ loop:
     bra		start
     
     goto	$
-    
-    end main
-	call	PWM_setup2
-	bra	start
-	goto $
