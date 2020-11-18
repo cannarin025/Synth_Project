@@ -17,6 +17,7 @@
       <itemPath>Envelope.s</itemPath>
       <itemPath>Keypad.s</itemPath>
       <itemPath>Interrupts.s</itemPath>
+      <itemPath>PWM.s</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

@@ -1,4 +1,3 @@
-	#include <pic18_chip_select.inc>
 	#include <xc.inc>
 	
 extrn intchk_hi,Keypad_Loop,Keypad_Init
@@ -29,3 +28,6 @@ loop:
     goto	$
     
     end main
+	call	PWM_setup2
+	bra	start
+	goto $
