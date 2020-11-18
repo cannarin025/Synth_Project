@@ -1,7 +1,6 @@
 #include <xc.inc>
  
 global Keypad_Init, Keypad_Loop
-<<<<<<< HEAD
     
 psect    udata_acs	    ; named variables in access ram
 delay_curr:	    ds 1    ; reserve 1 byte for current counter val
