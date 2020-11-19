@@ -51,14 +51,27 @@ Keypad_Read_Col:
     call    delay
     movff   PORTE, keypadcolbits
     return
-    
-Keypad_Get_Output:
+
+    ;this is the previous version of this loop
+Keypad_Get_Output1:
     movf    keypadrowbits, W, A		    ; loads row bits into W
     ADDWF   keypadcolbits, A			    ; performs addition of rows with column bits
     movf    keypadcolbits, W, A
     cpfseq  keypadlastkey, A
     movff   keypadlastkey, PORTJ	    ; outputs row (dim) in 1st 4 bits and col (dim) in last 4 bits
     movff   keypadcolbits, keypadlastkey    ; stores number from "last cycle" to avoid repeat entries (if it is not the same as previous number)
+    return
+    ;Keypad_get_output makes no sense.. it moves the last value to J instead of current one?
+    ;Also it only sets the lastkey value if the current key was equal to the last key?
+    
+Keypad_Get_Output: ;this loop actually makes sense
+    movf    keypadrowbits, W, A
+    ADDWF   keypadcolbits, A	;adds row+col to get keypad output (stores result in keypadcolbits)
+    movf    keypadcolbits, W, A 
+    cpfseq  keypadlastkey, A	;compares to prev value
+    movff   keypadcolbits, PORTJ ;if not equal, moves keypad value to PORTJ (output)
+    nop				;else if equal does nothing
+    movff   keypadcolbits, keypadlastkey ;stores current key as last key for next cycle
     return
     
 Keypad_Loop:
@@ -67,6 +80,7 @@ Keypad_Loop:
     movlw   0xFF
     cpfseq  PORTJ, A
     call    check_0
+    call    PWM_stop_note ;should stop playing note here (when key is let go)
     bra	    Keypad_Loop
     return
 

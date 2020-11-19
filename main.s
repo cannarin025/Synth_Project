@@ -15,8 +15,8 @@ int_hi:
     
 start:
 	;call PWM_setup
-	;call Keypad_Init
-	call DAC_Setup1
+	call Keypad_Init
+	;call DAC_Setup1
 	;call PWM_stop_note
 	
 	;bra	start
