@@ -12,6 +12,7 @@ wtemp:		    ds 1    ; reserve 1 byte for temp w val
     
 shortdelay:	    ds 1    ; reserve 1 byte for the short delay countdown
     
+buttonval:	    ds 1    ; reserve 1 byte for the current button value (was PORTH)
 keypadrowbits:	    ds 1    ; reserve 1 byte for keypad row value
 keypadcolbits:	    ds 1    ; reserve 1 byte for keypad column value
 keypadlastkey:	    ds 1    ; reserve 1 byte for last value fo keypad
@@ -27,9 +28,6 @@ Keypad_Init:
     movwf   TRISJ, A
     
     movlw   0x00
-    movwf   TRISH, A
-    
-    movlw   0x00
     movwf   keypadlastkey, A	;stores value from last cycle (see keypad_get_output:)
     
     call    Keypad_Loop
@@ -37,10 +35,10 @@ Keypad_Init:
     
 Keypad_Read_Rows:
     movlw   0x0F	;sets ports 0-3 as input, pins 4-7 as output
-    movwf   TRISE, A
+;    movwf   TRISE, A
     movlw   10
     call    delay
-    movff   PORTE, keypadrowbits
+;    movff   PORTE, keypadrowbits
     call    Keypad_Read_Col
     return
 
@@ -89,8 +87,8 @@ check_0:
     cpfseq  PORTJ, A
     bra    check_1   
     ;do things if button corresponds to 1
-    movlw   0x00    ;displays button value on portH
-    movwf   PORTH, A  
+    movlw   0x00    ;displays button value on buttonval
+    movwf   buttonval, A  
     
     return
     
@@ -101,7 +99,7 @@ check_1:
     
     ;do things if button corresponds to 1
     movlw   0x01    ;displays button value on portH
-    movwf   PORTH, A
+    movwf   buttonval, A
     
     movlw   238
     call PWM_set_note
@@ -116,7 +114,7 @@ check_2:
     
     ;do things if button corresponds to 2
     movlw   0x02    ;displays button value on portH
-    movwf   PORTH, A
+    movwf   buttonval, A
     
     movlw   224
     call PWM_set_note
@@ -131,7 +129,7 @@ check_3:
     
     ;do things if button corresponds to 3
     movlw   0x03   ;displays button value on portH
-    movwf   PORTH, A
+    movwf   buttonval, A
     
     movlw   212
     call PWM_set_note
@@ -146,7 +144,7 @@ check_4:
     
     ;do things if button corresponds to 4
     movlw   0x04   ;displays button value on portH
-    movwf   PORTH, A
+    movwf   buttonval, A
     
     movlw   189
     call PWM_set_note
@@ -161,7 +159,7 @@ check_5:
     
     ;do things if button corresponds to 5
     movlw   0x05   ;displays button value on portH
-    movwf   PORTH, A
+    movwf   buttonval, A
     
     movlw   178
     call PWM_set_note
@@ -176,7 +174,7 @@ check_6:
     
     ;do things if button corresponds to 6
     movlw   0x06   ;displays button value on portH
-    movwf   PORTH, A
+    movwf   buttonval, A
     
     movlw   168
     call PWM_set_note
@@ -191,7 +189,7 @@ check_7:
     
     ;do things if button corresponds to 7
     movlw   0x07   ;displays button value on portH
-    movwf   PORTH, A
+    movwf   buttonval, A
     
     movlw   149
     call PWM_set_note
@@ -206,7 +204,7 @@ check_8:
     
     ;do things if button corresponds to 8
     movlw   0x08   ;displays button value on portH
-    movwf   PORTH, A
+    movwf   buttonval, A
     
     movlw   141
     call PWM_set_note
@@ -221,7 +219,7 @@ check_9:
     
     ;do things if button corresponds to 9
     movlw   0x09   ;displays button value on portH
-    movwf   PORTH, A
+    movwf   buttonval, A
     
     movlw   133
     call PWM_set_note
@@ -236,8 +234,8 @@ check_A:
     
     ;do things if button corresponds to A
     movlw   0x0a   ;displays button value on portH
-    movwf   PORTH, A
-
+    movwf   buttonval, A
+    
     return
     
 check_B:
@@ -246,8 +244,8 @@ check_B:
     bra	    check_C
     ;do things if button corresponds to B
     movlw   0x0b   ;displays button value on portH
-    movwf   PORTH, A
-
+    movwf   buttonval, A
+    
     return
     
 check_C:
@@ -256,7 +254,7 @@ check_C:
     bra    check_D
     ;do things if button corresponds to C
     movlw   0x0c   ;displays button value on portH
-    movwf   PORTH, A
+    movwf   buttonval, A
 
     return
     
@@ -266,7 +264,7 @@ check_D:
     bra    check_E
     ;do things if button corresponds to D
     movlw   0x0e   ;displays button value on portH
-    movwf   PORTH, A
+    movwf   buttonval, A
     
     movlw   126
     call PWM_set_note
@@ -280,7 +278,7 @@ check_E:
     bra    check_F
     ;do things if button corresponds to E
     movlw   0x0E   ;displays button value on portH
-    movwf   PORTH, A
+    movwf   buttonval, A
     
     movlw   158
     call PWM_set_note
@@ -294,7 +292,7 @@ check_F:
     return
     ;do things if button corresponds to F
     movlw   0x0F   ;displays button value on portH
-    movwf   PORTH, A
+    movwf   buttonval, A
     
     movlw   200
     call PWM_set_note

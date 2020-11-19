@@ -20,12 +20,21 @@ PWM_setup:
     movlw   11110111B
     movwf   TRISG, A
     ;timer
-    bsf	    TMR2ON
-    bsf	    T2CKPS1 ;timer prescalar x16
-    bsf	    T2CKPS0 ;timer prescalar x16
-     ;PWM mode
+;    bsf	    TMR2ON
+    
+    movlw   11111111B
+    movwf   T2CON, A
+;    bsf	    T2CKPS1 ;timer prescalar x16
+;    bsf	    T2CKPS0 ;timer prescalar x16
+;     ;PWM mode
     bsf	    CCP2M1
     bsf	    CCP2M0
+    movlw   11000000B
+    movwf   INTCON,A
+    movlw   00000010B
+    movwf   PIE1, A
+    movlw   00000001B
+    movwf   PIE2, A
     return
     
 PWM_set_note: ;plays note corresponding to W using formula (PR2 value)

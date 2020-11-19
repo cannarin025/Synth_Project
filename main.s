@@ -18,15 +18,17 @@ int_hi:
     org	0x0008
     goto	intchk_hi
 	
-;int_lo:
-;    org	0x0018
-;    goto	intchk_lo
+int_lo:
+    org	0x0018
+    goto	intchk_hi
 	
 start:
+    movlw	0x00	;sets ports 0-3 as input, pins 4-7 as output
+    movwf	TRISH, A
     call	PWM_setup
     call	Keypad_Init
     call	DAC_Setup
-    
+
 loop:
     call	ADC_Loop
     call	Keypad_Loop
