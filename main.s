@@ -1,6 +1,9 @@
 	#include <xc.inc>
 	
-extrn intchk_hi,Keypad_Loop,Keypad_Init, PWM_setup2
+extrn intchk_hi
+extrn Keypad_Loop,Keypad_Init
+extrn PWM_setup2
+extrn ADC_Setup, ADC_loop
 
 psect	code, abs
 	
@@ -21,8 +24,10 @@ int_hi:
 start:
     call	PWM_setup2
     call	Keypad_Init
+    call	DAC_Setup
     
 loop:
+    call	ADC_loop
     call	Keypad_Loop
     bra		start
     
