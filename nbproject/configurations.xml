@@ -19,6 +19,7 @@
       <itemPath>Interrupts.s</itemPath>
       <itemPath>PWM.s</itemPath>
       <itemPath>ADC.s</itemPath>
+      <itemPath>DAC_Interrupt.s</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

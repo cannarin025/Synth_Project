@@ -1,6 +1,6 @@
 #include <xc.inc>
 
-global  ADC_Setup, ADC_Read    
+global  ADC_Setup, ADC_Read, ADC_Loop
     
 psect	adc_code, class=CODE
     
@@ -17,7 +17,7 @@ ADC_Setup:
 
 ADC_Read:
 	bsf	GO	    ; Start conversion by setting GO bit in ADCON0
-adc_loop:
+ADC_Loop:
 	btfsc   GO	    ; check to see if finished
 	return
 

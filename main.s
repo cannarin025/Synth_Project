@@ -2,8 +2,9 @@
 	
 extrn intchk_hi
 extrn Keypad_Loop,Keypad_Init
-extrn PWM_setup2
-extrn ADC_Setup, ADC_loop
+extrn ADC_Setup, ADC_Loop
+extrn PWM_setup, PWM_set_note, PWM_play_note, PWM_stop_note
+extrn DAC_Setup
 
 psect	code, abs
 	
@@ -22,12 +23,12 @@ int_hi:
 ;    goto	intchk_lo
 	
 start:
-    call	PWM_setup2
+    call	PWM_setup
     call	Keypad_Init
     call	DAC_Setup
     
 loop:
-    call	ADC_loop
+    call	ADC_Loop
     call	Keypad_Loop
     bra		start
     

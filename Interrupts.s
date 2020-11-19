@@ -9,7 +9,7 @@ psect    Keypad_code, class=CODE
 intchk_hi:
     btfss	TMR2IF ; check that the PWM called the interrupt
     retfie	f ; otherwise return
-    incf	sawval ; increase sawval by 1
+    incf	sawval, A ; increase sawval by 1
     movff	sawval, PORTD, A
     bcf		TMR2IF ; clear tmr2 interrupt flag
     retfie	f ; return
