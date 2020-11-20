@@ -1,5 +1,5 @@
 	#include <xc.inc>
-	extrn PWM_setup, PWM_set_note, PWM_play_note, PWM_stop_note, Keypad_Init, DAC_Setup1, DAC_Int_Hi
+	extrn PWM_setup, PWM_set_note, PWM_play_note, PWM_stop_note, Keypad_Init, DAC_Setup1, DAC_Int_Hi, CCP_Setup, CCP_Int_Hi
 
 	psect	code, abs
 	
@@ -11,13 +11,12 @@ main:
 
 int_hi:
     org 0x0008
-    goto    DAC_Int_Hi
+    goto    CCP_Int_Hi
     
 start:
 	;call PWM_setup
-	call Keypad_Init
-	;call DAC_Setup1
-	;call PWM_stop_note
+	;call Keypad_Init
+	call	CCP_Setup
 	
 	;bra	start
 	goto $

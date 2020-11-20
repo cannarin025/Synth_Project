@@ -76,11 +76,11 @@ Keypad_Get_Output: ;this loop actually makes sense
     
 Keypad_Loop:
     call    Keypad_Read_Rows
-    call    Keypad_Get_Output
+    call    Keypad_Get_Output1
     movlw   0xFF
     cpfseq  PORTJ, A
     call    check_0
-    call    PWM_stop_note ;should stop playing note here (when key is let go)
+    ;call    PWM_stop_note ;should stop playing note here (when key is let go)
     bra	    Keypad_Loop
     return
 
