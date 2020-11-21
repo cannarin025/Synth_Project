@@ -2,6 +2,8 @@
 	
 global	CCP_Int_Hi
     
+extrn saw,wavetype,squarecounter,square
+    
 psect	CCP_interrupt_code, class=CODE
 	
 CCP_Int_Hi:
@@ -10,7 +12,8 @@ CCP_Int_Hi:
 	movlw	0x00
 	movwf	TMR1H, A	;resetting timer counters
 	movwf	TMR1L, A		;resetting timer counters
-	cpfseq	saw
+	movf	wavetype, W, A
+	cpfseq	saw, A
 	bra	square_inc
 	bra	saw_inc
 	

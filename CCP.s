@@ -1,6 +1,7 @@
 #include <xc.inc>
     
 global  CCP_Setup, CCP_Enable_Timer, CCP_Disable_Timer
+global saw, square, squarecounter,wavetype
 
 psect    udata_acs	    ; named variables in access ram
 wavetype:	    ds 1    ; reserve 1 byte for wavetype (saw = 0, square = 1)
@@ -43,7 +44,7 @@ CCP_Setup: ;using timer 1
     movwf   saw, A
     ;movwf   wavetype, A ; set as saw wave
     movlw   128
-    movlw   squarecounter, A
+    movwf   squarecounter, A
     
     return
     
