@@ -19,6 +19,7 @@
       <itemPath>CCP.s</itemPath>
       <itemPath>CCP_Interrupt.s</itemPath>
       <itemPath>Synth_Keypad.s</itemPath>
+      <itemPath>ADC.s</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
