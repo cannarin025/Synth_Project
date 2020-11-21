@@ -27,29 +27,6 @@ CCP_Setup: ;using timer 1
     
     return
     
-;CCP_Setup: ;using timer0
-;    ;Timer 0 setup
-;    movlw   01000110B	; Set timer0 to 16-bit, Timer frequency = Fosc/4/Prescale. Bits 0:2 are prescale. Varying this doubles / halves freq ==> changes octave. Timer starts off
-;    movwf   T0CON, A	; = 62.5KHz clock rate, approx 1sec rollover
-;    
-;    
-;    ;Compare mode setup
-;    bsf	    CCP5IP	;CCP5 high priority interrupt
-;    movlw   11000000B	;Enabling intcon high and low priority interrupts
-;    movwf   INTCON, A
-;    
-;    movlw   00001010B	;compare mode configuration to generate software interrupt on compare match
-;    movwf   CCP5CON, A
-;    movlw   00000001B	;CCP low byte register
-;    movwf   CCPR5L, A
-;    movlw   00000000B	;CCP high byte register
-;    movwf   CCPR5H, A
-;    
-;    bsf	    GIE		; Enable all interrupts
-;    bsf	    CCP5IE
-;    
-;    return
-    
 CCP_Set_Freq:
     return
     
