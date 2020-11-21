@@ -1,28 +1,62 @@
 #include <xc.inc>
     psect	CCP_code, class=CODE
 
-    global  CCP_Setup
+    global  CCP_Setup, CCP_Enable_Timer, CCP_Disable_Timer
     
-CCP_Setup:
+CCP_Setup: ;using timer 1
     ;Timer 1 setup
-    movlw   10000110B	; Set timer0 to 16-bit, Fosc/4/256. Varying this doubles / halves freq ==> changes octave. Timer starts off
-    movwf   T1CON, A	; = 62.5KHz clock rate, approx 1sec rollover
-    bsf	    TMR1ON	; Turns on timer
-    ;bsf	    TMR1IE		; Enable timer0 interrupt
-    ;bsf	    GIE		; Enable all interrupts
+    movlw   00010010B	; Timer 1 config. Bit 6 set Fosc (1) or Fosc/4 (0). Bit 5-4 set timer prescale (lower is faster) 8: 11, 4: 10, 2: 01, 1: 00 .
+    movwf   T1CON, A	
+    
     
     ;Compare mode setup
-    ;bsf	    INTCON
-    movlw   11110000B
-    movwf   INTCON, A
-    bsf	    CCP5IE
     bsf	    CCP5IP	;CCP5 high priority interrupt
-    movlw   00000000B	;CCP5 using tmr 1/2
-    ;movwf   CCPTMSR1, A
+    movlw   11000000B	;Enabling intcon high and low priority interrupts
+    movwf   INTCON, A
+    
     movlw   00001010B	;compare mode configuration to generate software interrupt on compare match
     movwf   CCP5CON, A
-    movlw   00001000B	;CCP low byte register
+    
+    movlw   11110100B	;CCP high byte register. Upper byte of number timer is counting to
+    movwf   CCPR5H, A
+    movlw   00100100B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
-    movlw   00001000B	;CCP high byte register
-    movwf   CCPR5H
+    
+    bsf	    GIE		; Enable all interrupts
+    bsf	    CCP5IE
+    
+    return
+    
+;CCP_Setup: ;using timer0
+;    ;Timer 0 setup
+;    movlw   01000110B	; Set timer0 to 16-bit, Timer frequency = Fosc/4/Prescale. Bits 0:2 are prescale. Varying this doubles / halves freq ==> changes octave. Timer starts off
+;    movwf   T0CON, A	; = 62.5KHz clock rate, approx 1sec rollover
+;    
+;    
+;    ;Compare mode setup
+;    bsf	    CCP5IP	;CCP5 high priority interrupt
+;    movlw   11000000B	;Enabling intcon high and low priority interrupts
+;    movwf   INTCON, A
+;    
+;    movlw   00001010B	;compare mode configuration to generate software interrupt on compare match
+;    movwf   CCP5CON, A
+;    movlw   00000001B	;CCP low byte register
+;    movwf   CCPR5L, A
+;    movlw   00000000B	;CCP high byte register
+;    movwf   CCPR5H, A
+;    
+;    bsf	    GIE		; Enable all interrupts
+;    bsf	    CCP5IE
+;    
+;    return
+    
+CCP_Set_Freq:
+    return
+    
+CCP_Enable_Timer: 
+    bsf	    TMR1ON	; Turns on timer
+    return
+    
+CCP_Disable_Timer:
+    bcf	    TMR1ON	; Turns off timer
     return

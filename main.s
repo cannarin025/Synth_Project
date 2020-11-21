@@ -1,5 +1,5 @@
-	#include <xc.inc>
-	extrn PWM_setup, PWM_set_note, PWM_play_note, PWM_stop_note, Keypad_Init, DAC_Setup1, DAC_Int_Hi, CCP_Setup, CCP_Int_Hi
+#include <xc.inc>
+	extrn PWM_setup, PWM_set_note, PWM_play_note, PWM_stop_note, Keypad_Init, CCP_Setup, CCP_Int_Hi, CCP_Enable_Timer, CCP_Disable_Timer
 
 	psect	code, abs
 	
@@ -14,9 +14,10 @@ int_hi:
     goto    CCP_Int_Hi
     
 start:
+	clrf TRISH
 	;call PWM_setup
 	;call Keypad_Init
 	call	CCP_Setup
-	
+	call	CCP_Enable_Timer
 	;bra	start
 	goto $
