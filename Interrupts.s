@@ -1,6 +1,6 @@
 #include <xc.inc>
     
-global intchk_hi;,intchk_lo
+global intchk_hi, DAC_Send_Data;,intchk_lo
     
 psect    udata_acs	    ; named variables in access ram
 sawval:		    ds 1    ; reserve 1 byte for current counter val

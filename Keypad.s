@@ -35,10 +35,10 @@ Keypad_Init:
     
 Keypad_Read_Rows:
     movlw   0x0F	;sets ports 0-3 as input, pins 4-7 as output
-;    movwf   TRISE, A
+    movwf   TRISE, A
     movlw   10
     call    delay
-;    movff   PORTE, keypadrowbits
+    movff   PORTE, keypadrowbits
     call    Keypad_Read_Col
     return
 

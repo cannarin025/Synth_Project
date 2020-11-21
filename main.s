@@ -14,18 +14,20 @@ main:
 
     org	0x100		    ; Main code starts here at address 0x100
 
-;int_hi:
-;    org	0x0008
-;    goto	intchk_hi
-;	
-;int_lo:
-;    org	0x0018
-;    goto	intchk_hi
-;	
+int_hi:
+    org	0x0008
+    goto	intchk_hi
+	
+int_lo:
+    org	0x0018
+    goto	intchk_hi
+	
 start:
-;    movlw	0x00
-;    movwf	TRISH, A
-;    call	PWM_setup
+    movlw	0x00
+    movwf	TRISH, A
+    clrf	TRISC, A	; Set PORTD as all outputs
+    clrf	LATC, A		; Clear PORTD outputs
+    call	PWM_setup
     call	Keypad_Init
 ;    call	DAC_Setup
 
