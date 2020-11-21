@@ -20,4 +20,7 @@ start:
 	call	CCP_Setup
 	call	CCP_Enable_Timer
 	;bra	start
+	
+loop:
+    
 	goto $

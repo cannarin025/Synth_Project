@@ -1,11 +1,20 @@
 #include <xc.inc>
-    psect	CCP_code, class=CODE
+    
+global  CCP_Setup, CCP_Enable_Timer, CCP_Disable_Timer
 
-    global  CCP_Setup, CCP_Enable_Timer, CCP_Disable_Timer
+psect    udata_acs	    ; named variables in access ram
+wavetype:	    ds 1    ; reserve 1 byte for wavetype (saw = 0, square = 1)
+saw:		    ds 1    ; reserve 1 byte to compare (saw = 0)
+square:		    ds 1    ; reserve 1 byte to compare (square = 1)
+squarecounter:	    ds 1    ; reserve 1 byte for the square wave counter
+    
+psect	CCP_code, class=CODE
+
+    
     
 CCP_Setup: ;using timer 1
     ;Timer 1 setup
-    movlw   00010010B	; Timer 1 config. Bit 6 set Fosc (1) or Fosc/4 (0). Bit 5-4 set timer prescale (lower is faster) 8: 11, 4: 10, 2: 01, 1: 00 .
+    movlw   01010010B	; Timer 1 config. Bit 6 set Fosc (1) or Fosc/4 (0). Bit 5-4 set timer prescale (lower is faster) 8: 11, 4: 10, 2: 01, 1: 00 .
     movwf   T1CON, A	
     
     
@@ -24,6 +33,17 @@ CCP_Setup: ;using timer 1
     
     bsf	    GIE		; Enable all interrupts
     bsf	    CCP5IE
+    
+    ; set wavetype as saw wave
+    
+    movlw   0x01
+    movwf   square, A
+    movwf   wavetype, A ; set as sq wave
+    movlw   0x00
+    movwf   saw, A
+    ;movwf   wavetype, A ; set as saw wave
+    movlw   128
+    movlw   squarecounter, A
     
     return
     

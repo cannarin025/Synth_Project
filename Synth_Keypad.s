@@ -91,6 +91,10 @@ check_0:
     movlw   0x00    ;displays button value on buttonval
     movwf   buttonval, A  
     
+    ; set octave to central (PRSCL = 2)
+    movlw   01010010B	; Timer 1 config. Bit 6 set Fosc (1) or Fosc/4 (0). Bit 5-4 set timer prescale (lower is faster) 8: 11, 4: 10, 2: 01, 1: 00 .
+    movwf   T1CON, A	
+    
     return
     
 check_1:
@@ -102,9 +106,11 @@ check_1:
     movlw   0x01    ;displays button value on portH
     movwf   buttonval, A
     
-    movlw   238
-    call PWM_set_note
-    call PWM_play_note
+    ; set counter max to 478
+    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
+    movwf   CCPR5H, A
+    movlw   11011110B	;CCP low byte register. Lower byte of number timer is counting to
+    movwf   CCPR5L, A
     
     return
 
@@ -117,9 +123,11 @@ check_2:
     movlw   0x02    ;displays button value on portH
     movwf   buttonval, A
     
-    movlw   224
-    call PWM_set_note
-    call PWM_play_note
+    ;set counter max to 451
+    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
+    movwf   CCPR5H, A
+    movlw   11000011B	;CCP low byte register. Lower byte of number timer is counting to
+    movwf   CCPR5L, A
 
     return
 
@@ -132,9 +140,11 @@ check_3:
     movlw   0x03   ;displays button value on portH
     movwf   buttonval, A
     
-    movlw   212
-    call PWM_set_note
-    call PWM_play_note
+    ;set counter max to 426
+    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
+    movwf   CCPR5H, A
+    movlw   10101010B	;CCP low byte register. Lower byte of number timer is counting to
+    movwf   CCPR5L, A
     
     return
 
@@ -147,9 +157,11 @@ check_4:
     movlw   0x04   ;displays button value on portH
     movwf   buttonval, A
     
-    movlw   189
-    call PWM_set_note
-    call PWM_play_note
+    ; set counter max to 379
+    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
+    movwf   CCPR5H, A
+    movlw   01111011B	;CCP low byte register. Lower byte of number timer is counting to
+    movwf   CCPR5L, A
     
     return
 
@@ -162,9 +174,11 @@ check_5:
     movlw   0x05   ;displays button value on portH
     movwf   buttonval, A
     
-    movlw   178
-    call PWM_set_note
-    call PWM_play_note
+    ; set counter max to 358
+    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
+    movwf   CCPR5H, A
+    movlw   01100110B	;CCP low byte register. Lower byte of number timer is counting to
+    movwf   CCPR5L, A
     
     return
     
@@ -177,9 +191,11 @@ check_6:
     movlw   0x06   ;displays button value on portH
     movwf   buttonval, A
     
-    movlw   168
-    call PWM_set_note
-    call PWM_play_note
+    ; set counter max to 338
+    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
+    movwf   CCPR5H, A
+    movlw   01010010B	;CCP low byte register. Lower byte of number timer is counting to
+    movwf   CCPR5L, A
     
     return
 
@@ -192,9 +208,11 @@ check_7:
     movlw   0x07   ;displays button value on portH
     movwf   buttonval, A
     
-    movlw   149
-    call PWM_set_note
-    call PWM_play_note
+    ; set counter max to 301
+    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
+    movwf   CCPR5H, A
+    movlw   00101101B	;CCP low byte register. Lower byte of number timer is counting to
+    movwf   CCPR5L, A
 
     return
     
@@ -207,9 +225,11 @@ check_8:
     movlw   0x08   ;displays button value on portH
     movwf   buttonval, A
     
-    movlw   141
-    call PWM_set_note
-    call PWM_play_note
+    ; set counter max to 284
+    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
+    movwf   CCPR5H, A
+    movlw   00011100B	;CCP low byte register. Lower byte of number timer is counting to
+    movwf   CCPR5L, A
     
     return
     
@@ -222,9 +242,11 @@ check_9:
     movlw   0x09   ;displays button value on portH
     movwf   buttonval, A
     
-    movlw   133
-    call PWM_set_note
-    call PWM_play_note
+    ; set counter max to 268
+    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
+    movwf   CCPR5H, A
+    movlw   00001100B	;CCP low byte register. Lower byte of number timer is counting to
+    movwf   CCPR5L, A
     
     return
     
@@ -237,6 +259,10 @@ check_A:
     movlw   0x0a   ;displays button value on portH
     movwf   buttonval, A
     
+    ; set octave to lower (PRSCL = 4)
+    movlw   01100010B	; Timer 1 config. Bit 6 set Fosc (1) or Fosc/4 (0). Bit 5-4 set timer prescale (lower is faster) 8: 11, 4: 10, 2: 01, 1: 00 .
+    movwf   T1CON, A	
+    
     return
     
 check_B:
@@ -246,6 +272,10 @@ check_B:
     ;do things if button corresponds to B
     movlw   0x0b   ;displays button value on portH
     movwf   buttonval, A
+    
+    ; set octave to upper (PRSCL = 1)
+    movlw   01000010B	; Timer 1 config. Bit 6 set Fosc (1) or Fosc/4 (0). Bit 5-4 set timer prescale (lower is faster) 8: 11, 4: 10, 2: 01, 1: 00 .
+    movwf   T1CON, A	
     
     return
     
@@ -267,9 +297,11 @@ check_D:
     movlw   0x0e   ;displays button value on portH
     movwf   buttonval, A
     
-    movlw   126
-    call PWM_set_note
-    call PWM_play_note
+    ; set counter max to 253
+    movlw   00000000B	;CCP high byte register. Upper byte of number timer is counting to
+    movwf   CCPR5H, A
+    movlw   11111101B	;CCP low byte register. Lower byte of number timer is counting to
+    movwf   CCPR5L, A
 
     return
     
@@ -281,9 +313,11 @@ check_E:
     movlw   0x0E   ;displays button value on portH
     movwf   buttonval, A
     
-    movlw   158
-    call PWM_set_note
-    call PWM_play_note
+    ; set counter max to 319
+    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
+    movwf   CCPR5H, A
+    movlw   00111111B	;CCP low byte register. Lower byte of number timer is counting to
+    movwf   CCPR5L, A
 
     return
     
@@ -295,9 +329,11 @@ check_F:
     movlw   0x0F   ;displays button value on portH
     movwf   buttonval, A
     
-    movlw   200
-    call PWM_set_note
-    call PWM_play_note
+    ; set counter max to 402
+    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
+    movwf   CCPR5H, A
+    movlw   10010010B	;CCP low byte register. Lower byte of number timer is counting to
+    movwf   CCPR5L, A
 
     return
 

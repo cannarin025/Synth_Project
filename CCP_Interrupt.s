@@ -10,9 +10,38 @@ CCP_Int_Hi:
 	movlw	0x00
 	movwf	TMR1H, A	;resetting timer counters
 	movwf	TMR1L, A		;resetting timer counters
-	;movlw	0xFF
-	;movwf	PORTH, A
+	cpfseq	saw
+	bra	square_inc
+	bra	saw_inc
+	
+saw_inc:
 	incf	LATH, F, A	; increment PORTD
-	;call	DAC_Send_Data1
 	bcf	CCP5IF		; clear interrupt flag
 	retfie	f		; fast return from interrupt
+	
+square_inc:
+	decfsz	squarecounter, A
+	bra	square_end
+	call	square_fliptest
+square_end:
+	bcf	CCP5IF
+	retfie	f
+	
+square_fliptest:
+	movlw	0xFF
+	cpfseq	LATH, A
+	bra	square_00
+	bra	square_FF
+square_FF:
+	incf	LATH, A
+	bra	square_postflip
+square_00:
+	decf	LATH, A
+	bra	square_postflip
+square_postflip:
+	movlw	128
+	movwf	squarecounter, A
+	return
+
+	
+	
