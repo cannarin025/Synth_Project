@@ -31,7 +31,7 @@ Keypad_Init:
     movlw   0x00
     movwf   keypadlastkey, A	;stores value from last cycle (see keypad_get_output:)
     
-    ;call    Keypad_Loop
+    call    Keypad_Loop
     return
     
 Keypad_Read_Rows:
@@ -61,7 +61,7 @@ Keypad_Loop:
     call    Keypad_Get_Output
     call    check_samenote
     movff   keypadcolbits, keypadlastkey ;stores current key as last key for next cycle
-    bra	    Keypad_Loop
+    ;bra	    Keypad_Loop
     return
     
 check_samenote:
