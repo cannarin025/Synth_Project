@@ -91,14 +91,12 @@ check_0:
     ;do things if button corresponds to 1
     movlw   0x00    ;displays button value on buttonval
     movwf   buttonval, A  
+    ; set octave to lower (PRSCL = 4)
+    call    CCP5_Disable_Timer
+    ;setting prescalar to 4 (half freq)
+    bsf	    T1CKPS1
+    bcf	    T1CKPS0
     
-    ; set octave to central (PRSCL = 2)
-    movlw   01010010B	; Timer 1 config. Bit 6 set Fosc (1) or Fosc/4 (0). Bit 5-4 set timer prescale (lower is faster) 8: 11, 4: 10, 2: 01, 1: 00 .
-    movwf   T1CON, A	
-    
-    ; set octave to central (PRSCL = 2)
-    movlw   01010010B	; Timer 1 config. Bit 6 set Fosc (1) or Fosc/4 (0). Bit 5-4 set timer prescale (lower is faster) 8: 11, 4: 10, 2: 01, 1: 00 .
-    movwf   T1CON, A	
     
     return
     
@@ -112,9 +110,13 @@ check_1:
     movwf   buttonval, A
     
     ; set counter max to 478
-    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
+;    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
+;    movwf   CCPR5H, A
+;    movlw   11011110B	;CCP low byte register. Lower byte of number timer is counting to
+;    movwf   CCPR5L, A
+    movlw   11110100B	;CCP high byte register. Upper byte of number timer is counting to
     movwf   CCPR5H, A
-    movlw   11011110B	;CCP low byte register. Lower byte of number timer is counting to
+    movlw   00100100B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
     call    CCP5_Enable_Timer
     
@@ -272,10 +274,11 @@ check_A:
     ;do things if button corresponds to A
     movlw   0x0a   ;displays button value on portH
     movwf   buttonval, A
-    
-    ; set octave to lower (PRSCL = 4)
-    movlw   01100010B	; Timer 1 config. Bit 6 set Fosc (1) or Fosc/4 (0). Bit 5-4 set timer prescale (lower is faster) 8: 11, 4: 10, 2: 01, 1: 00 .
-    movwf   T1CON, A
+    ;Lowest octave (prescale 8)
+    call    CCP5_Disable_Timer
+    ;setting prescalar to 8 (halves freq again. Lowst octave)
+    bsf	    T1CKPS1
+    bsf	    T1CKPS0	
     
     return
     
@@ -287,9 +290,11 @@ check_B:
     movlw   0x0b   ;displays button value on portH
     movwf   buttonval, A
     
-    ; set octave to upper (PRSCL = 1)
-    movlw   01000010B	; Timer 1 config. Bit 6 set Fosc (1) or Fosc/4 (0). Bit 5-4 set timer prescale (lower is faster) 8: 11, 4: 10, 2: 01, 1: 00 .
-    movwf   T1CON, A
+    ; set octave to central (PRSCL = 2)
+    call    CCP5_Disable_Timer
+    ;resetting back to original freq (prescale 2)
+    bcf	    T1CKPS1
+    bsf	    T1CKPS0
     
     return
     
@@ -300,7 +305,12 @@ check_C:
     ;do things if button corresponds to C
     movlw   0x0c   ;displays button value on portH
     movwf   buttonval, A
-
+    ; set octave to upper (PRSCL = 1)
+    call    CCP5_Disable_Timer
+    ;setting prescalar to 1 (faster double freq)
+    bcf	    T1CKPS1
+    bcf	    T1CKPS0
+    
     return
     
 check_D:

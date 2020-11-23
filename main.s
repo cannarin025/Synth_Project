@@ -22,7 +22,7 @@ start:
     ;call   PWM_setup
     call    Keypad_Init
     call    CCP5_Setup
-    call    CCP6_Setup
+    ;call    CCP6_Setup
     call    Wave_Setup
     ;call    CCP5_Enable_Timer
     ;call    CCP6_Enable_Timer
