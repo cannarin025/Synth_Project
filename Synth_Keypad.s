@@ -61,7 +61,7 @@ Keypad_Loop:
     call    Keypad_Get_Output
     call    check_samenote
     movff   keypadcolbits, keypadlastkey ;stores current key as last key for next cycle
-    ;bra	    Keypad_Loop
+    bra	    Keypad_Loop
     return
     
 check_samenote:
@@ -90,6 +90,10 @@ check_0:
     ;do things if button corresponds to 1
     movlw   0x00    ;displays button value on buttonval
     movwf   buttonval, A  
+    
+    ; set octave to central (PRSCL = 2)
+    movlw   01010010B	; Timer 1 config. Bit 6 set Fosc (1) or Fosc/4 (0). Bit 5-4 set timer prescale (lower is faster) 8: 11, 4: 10, 2: 01, 1: 00 .
+    movwf   T1CON, A	
     
     ; set octave to central (PRSCL = 2)
     movlw   01010010B	; Timer 1 config. Bit 6 set Fosc (1) or Fosc/4 (0). Bit 5-4 set timer prescale (lower is faster) 8: 11, 4: 10, 2: 01, 1: 00 .
