@@ -15,7 +15,7 @@ psect	CCP_code, class=CODE
     
 CCP_Setup: ;using timer 1
     ;Timer 1 setup
-    movlw   01010010B	; Timer 1 config. Bit 6 set Fosc (1) or Fosc/4 (0). Bit 5-4 set timer prescale (lower is faster) 8: 11, 4: 10, 2: 01, 1: 00 .
+    movlw   00001010B	; Timer 1 config. Bit 6 set Fosc (1) or Fosc/4 (0). Bit 5-4 set timer prescale (lower is faster) 8: 11, 4: 10, 2: 01, 1: 00 .
     movwf   T1CON, A	
     
     

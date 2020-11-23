@@ -1,7 +1,7 @@
 #include <xc.inc>
 
 global Keypad_Init, Keypad_Loop
-extrn PWM_setup, PWM_set_note, PWM_play_note, PWM_stop_note
+extrn PWM_setup, PWM_set_note, PWM_play_note, PWM_stop_note, CCP_Enable_Timer, CCP_Disable_Timer
     
     
 psect    udata_acs	    ; named variables in access ram
@@ -79,7 +79,7 @@ check_nonote:
     movlw   0xFF    ;corresponds to keypress 0
     cpfseq  PORTJ, A
     bra	    check_0
-    call    PWM_stop_note
+    call    CCP_Disable_Timer
     ;do things if button corresponds to 1
     return
     
@@ -111,6 +111,7 @@ check_1:
     movwf   CCPR5H, A
     movlw   11011110B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
+    call    CCP_Enable_Timer
     
     return
 
@@ -128,7 +129,8 @@ check_2:
     movwf   CCPR5H, A
     movlw   11000011B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
-
+    call    CCP_Enable_Timer
+    
     return
 
 check_3:
@@ -145,6 +147,7 @@ check_3:
     movwf   CCPR5H, A
     movlw   10101010B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
+    call    CCP_Enable_Timer
     
     return
 
@@ -162,6 +165,7 @@ check_4:
     movwf   CCPR5H, A
     movlw   01111011B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
+    call    CCP_Enable_Timer
     
     return
 
@@ -179,6 +183,7 @@ check_5:
     movwf   CCPR5H, A
     movlw   01100110B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
+    call    CCP_Enable_Timer
     
     return
     
@@ -196,6 +201,7 @@ check_6:
     movwf   CCPR5H, A
     movlw   01010010B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
+    call    CCP_Enable_Timer
     
     return
 
@@ -213,7 +219,8 @@ check_7:
     movwf   CCPR5H, A
     movlw   00101101B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
-
+    call    CCP_Enable_Timer
+    
     return
     
 check_8:
@@ -230,6 +237,7 @@ check_8:
     movwf   CCPR5H, A
     movlw   00011100B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
+    call    CCP_Enable_Timer
     
     return
     
@@ -247,6 +255,7 @@ check_9:
     movwf   CCPR5H, A
     movlw   00001100B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
+    call    CCP_Enable_Timer
     
     return
     
@@ -302,7 +311,8 @@ check_D:
     movwf   CCPR5H, A
     movlw   11111101B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
-
+    call    CCP_Enable_Timer
+    
     return
     
 check_E:
@@ -318,7 +328,8 @@ check_E:
     movwf   CCPR5H, A
     movlw   00111111B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
-
+    call    CCP_Enable_Timer
+    
     return
     
 check_F:
@@ -334,7 +345,8 @@ check_F:
     movwf   CCPR5H, A
     movlw   10010010B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
-
+    call    CCP_Enable_Timer
+    
     return
 
 delay:
