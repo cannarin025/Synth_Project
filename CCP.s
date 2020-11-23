@@ -1,14 +1,6 @@
 #include <xc.inc>
     
-psect    udata_acs        ; named variables in access ram
-    wavetype:        ds 1    ; reserve 1 byte for wavetype (saw = 0, square = 1)
-    saw:            ds 1    ; reserve 1 byte to compare (saw = 0)
-    square:            ds 1    ; reserve 1 byte to compare (square = 1)
-    squarecounter:        ds 1    ; reserve 1 byte for the square wave counter
-    
 psect	CCP_code, class=CODE
-    
-    global  wavetype,saw,square,squarecounter
 
     global  CCP5_Setup, CCP5_Enable_Timer, CCP5_Disable_Timer, CCP6_Setup, CCP6_Enable_Timer, CCP6_Disable_Timer
 
@@ -34,17 +26,6 @@ CCP5_Setup: ;using timer 1
     
     bsf	    GIE		; Enable all interrupts
     bsf	    CCP5IE
-    
-    ; set wavetype as saw wave
-    
-    movlw   0x01
-    movwf   square, A
-    movwf   wavetype, A ; set as sq wave
-    movlw   0x00
-    movwf   saw, A
-    ;movwf   wavetype, A ; set as saw wave
-    movlw   128
-    movwf   squarecounter, A
     
     return
     

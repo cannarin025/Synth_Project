@@ -1,6 +1,6 @@
 #include <xc.inc>
 
-global Keypad_Init, Keypad_Loop
+global Keypad_Init, Keypad_Loop, check_nonote
 extrn PWM_setup, PWM_set_note, PWM_play_note, PWM_stop_note, CCP5_Enable_Timer, CCP5_Disable_Timer
     
     
@@ -52,14 +52,16 @@ Keypad_Read_Col:
     return
     
 Keypad_Get_Output: ;this loop actually makes sense
+    call    Keypad_Read_Rows
     movf    keypadrowbits, W, A
-    addwf   keypadcolbits, A	;adds row+col to get keypad output (stores result in keypadcolbits)
+    addwf   keypadcolbits, A    ;adds row+col to get keypad output (stores result in keypadcolbits)
     return
     
 Keypad_Loop:
-    call    Keypad_Read_Rows
     call    Keypad_Get_Output
     call    check_samenote
+    call    check_nonote
+    call    check_0    
     movff   keypadcolbits, keypadlastkey ;stores current key as last key for next cycle
     bra	    Keypad_Loop
     return
@@ -72,13 +74,12 @@ check_samenote:
     
 not_samenote:
     movff   keypadcolbits, PORTJ ;if not equal, moves keypad value to PORTJ (output)
-    bra	    check_nonote
     return
     
 check_nonote:
     movlw   0xFF    ;corresponds to keypress 0
     cpfseq  PORTJ, A
-    bra	    check_0
+    return
     call    CCP5_Disable_Timer
     ;do things if button corresponds to 1
     return
