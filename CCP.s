@@ -7,6 +7,8 @@ psect    udata_acs        ; named variables in access ram
     squarecounter:        ds 1    ; reserve 1 byte for the square wave counter
     
 psect	CCP_code, class=CODE
+    
+    global  wavetype,saw,square,squarecounter
 
     global  CCP5_Setup, CCP5_Enable_Timer, CCP5_Disable_Timer, CCP6_Setup, CCP6_Enable_Timer, CCP6_Disable_Timer
 
@@ -56,7 +58,6 @@ CCP5_Enable_Timer:
 CCP5_Disable_Timer:
     bcf	    TMR1ON	; Turns off timer
     return
-    
 
 ;CCP6
 CCP6_Setup: ;using timer 3
