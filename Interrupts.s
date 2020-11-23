@@ -13,9 +13,19 @@ CCP5_Int_Hi:
 	movwf	TMR1H, A	;resetting timer counters
 	movwf	TMR1L, A		;resetting timer counters
 	movf	wavetype, W, A
+
+typecheck1:
 	cpfseq	saw, A
-	bra	square_inc
+	bra	typecheck2
 	bra	saw_inc
+typecheck2:
+	cpfseq	square, A
+	bra	typecheck3
+	bra	square_inc
+typecheck3:
+	;cpfseq	sin, A
+	;bra	typecheck4
+	bra	square_inc
 	
 saw_inc:
 	incf	LATH, F, A	; increment PORTD
