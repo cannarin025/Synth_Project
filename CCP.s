@@ -27,6 +27,17 @@ CCP5_Setup: ;using timer 1
     bsf	    GIE		; Enable all interrupts
     bsf	    CCP5IE
     
+    ; set wavetype as saw wave
+    
+    movlw   0x01
+    movwf   square, A
+    movwf   wavetype, A ; set as sq wave
+    movlw   0x00
+    movwf   saw, A
+    ;movwf   wavetype, A ; set as saw wave
+    movlw   128
+    movwf   squarecounter, A
+    
     return
     
 CCP5_Set_Freq:
