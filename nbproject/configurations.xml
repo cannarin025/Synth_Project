@@ -20,7 +20,7 @@
       <itemPath>Interrupts.s</itemPath>
       <itemPath>Keypad.s</itemPath>
       <itemPath>Envelope.s</itemPath>
-      <itemPath>Main.s</itemPath>
+      <itemPath>main.s</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

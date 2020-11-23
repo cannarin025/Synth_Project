@@ -275,7 +275,7 @@ check_A:
     
     ; set octave to lower (PRSCL = 4)
     movlw   01100010B	; Timer 1 config. Bit 6 set Fosc (1) or Fosc/4 (0). Bit 5-4 set timer prescale (lower is faster) 8: 11, 4: 10, 2: 01, 1: 00 .
-    movwf   T1CON, A	
+    movwf   T1CON, A
     
     return
     
@@ -289,7 +289,7 @@ check_B:
     
     ; set octave to upper (PRSCL = 1)
     movlw   01000010B	; Timer 1 config. Bit 6 set Fosc (1) or Fosc/4 (0). Bit 5-4 set timer prescale (lower is faster) 8: 11, 4: 10, 2: 01, 1: 00 .
-    movwf   T1CON, A	
+    movwf   T1CON, A
     
     return
     
