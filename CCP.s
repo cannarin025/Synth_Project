@@ -19,8 +19,10 @@ CCP5_Setup: ;using timer 1
     movlw   00001010B	;compare mode configuration to generate software interrupt on compare match
     movwf   CCP5CON, A
     
-    ;movlw   11110100B	;CCP high byte register. Upper byte of number timer is counting to
-    ;movwf   CCPR5H, A
+    ;TEMPORARY HIGH BIT: REMOVE IT AS WE ONLY NEED CCPR5L
+    movlw   00000000B	;CCP high byte register. Upper byte of number timer is counting to
+    movwf   CCPR5H, A
+    
     ;movlw   00100100B	;CCP low byte register. Lower byte of number timer is counting to
     ;movwf   CCPR5L, A
     

@@ -1,6 +1,6 @@
 #include <xc.inc>
 	
-global	CCP5_Int_Hi, CCP6_Int_Hi, Wave_Setup
+global	CCP5_Int_Hi, CCP6_Int_Hi, Wave_Setup, Wave_Check
     
 extrn	check_nonote
 
@@ -15,24 +15,37 @@ psect    udata_acs        ; named variables in access ram
 psect	CCP_interrupt_code, class=CODE
 	
 Wave_Setup:
-	movlw   0x00
-	movwf	wavetype, A
+	movlw   0x02
 	movwf	saw, A
-	movwf	LATH, A
-	movlw	0x01
+	
+	clrf	LATH, A
+	
+	movlw	0x04
 	movwf	tri_state, A
-	movwf	square, A
-	movlw	0x02
 	movwf	tri, A
-	movlw	64
+	
+	movlw	0x01
+	movwf	square, A
+
+	movlw	32
 	movwf	wavecounter, A
+	call	Wave_Check
 	return
 
+;maybe instead try just comparing portg with saw, square, tri instead of wavetype.
+;also change wavecheck to work.
+	
+Wave_Check:
+    movlw   0x02
+    ;movwf   PORTG, A
+    ;movff   PORTG, wavetype, A
+    movwf   wavetype, A
+    return
+
 CCP5_Int_Hi:
+	clrf	TMR1L, A		;resetting timer counters
+	clrf	TMR1H, A	;resetting timer counters
 	call	check_nonote
-	movlw	0x00
-	movwf	TMR1H, A	;resetting timer counters
-	movwf	TMR1L, A		;resetting timer counters
 	movf	wavetype, W, A
 typecheck1:
 	cpfseq	saw, A
@@ -48,8 +61,8 @@ typecheck3:
 	bra	tri_inc
 	
 saw_inc:
-	incf	LATH, F, A	; increment PORTD
-	incf	LATH, F, A
+	movlw	0x04
+	addwf	LATH, A
 	bcf	CCP5IF		; clear interrupt flag
 	retfie	f		; fast return from interrupt
 	
@@ -73,13 +86,12 @@ square_00:
 	decf	LATH, A
 	bra	square_postflip
 square_postflip:
-	movlw	164
+	movlw	64
 	movwf	wavecounter, A
 	return
 
 tri_inc:
 	movf	tri_state, W, A
-	addwf	LATH, A
 	addwf	LATH, A
 	decfsz	wavecounter, A
 	bra	tri_end
@@ -88,20 +100,20 @@ tri_end:
 	bcf	CCP5IF
 	retfie	f
 tri_fliptest:
-	movlw	0xff
+	movlw	0xFC
 	cpfseq	tri_state, A
-	bra	tri_01
-	bra	tri_FF
-tri_FF:
-	movlw	0x01
+	bra	tri_04
+	bra	tri_FC
+tri_FC:
+	movlw	0x04
 	movwf	tri_state, A
 	bra	tri_postflip
-tri_01:
-	movlw	0xFF
+tri_04:
+	movlw	0xFC
 	movwf	tri_state, A
 	bra	tri_postflip
 tri_postflip:
-	movlw	64
+	movlw	32
 	movwf	wavecounter, A
 	return
 

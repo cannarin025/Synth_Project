@@ -63,7 +63,7 @@ Keypad_Loop:
     call    check_nonote
     call    check_0    
     movff   keypadcolbits, keypadlastkey ;stores current key as last key for next cycle
-    bra	    Keypad_Loop
+    ;bra	    Keypad_Loop
     return
     
 check_samenote:
@@ -114,9 +114,8 @@ check_1:
 ;    movwf   CCPR5H, A
 ;    movlw   11011110B	;CCP low byte register. Lower byte of number timer is counting to
 ;    movwf   CCPR5L, A
-    movlw   11110100B	;CCP high byte register. Upper byte of number timer is counting to
-    movwf   CCPR5H, A
-    movlw   00100100B	;CCP low byte register. Lower byte of number timer is counting to
+
+    movlw   11101111B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
     call    CCP5_Enable_Timer
     
@@ -132,9 +131,7 @@ check_2:
     movwf   buttonval, A
     
     ;set counter max to 451
-    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
-    movwf   CCPR5H, A
-    movlw   11000011B	;CCP low byte register. Lower byte of number timer is counting to
+    movlw   11100001B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
     call    CCP5_Enable_Timer
     
@@ -150,9 +147,7 @@ check_3:
     movwf   buttonval, A
     
     ;set counter max to 426
-    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
-    movwf   CCPR5H, A
-    movlw   10101010B	;CCP low byte register. Lower byte of number timer is counting to
+    movlw   11010101B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
     call    CCP5_Enable_Timer
     
@@ -168,9 +163,7 @@ check_4:
     movwf   buttonval, A
     
     ; set counter max to 379
-    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
-    movwf   CCPR5H, A
-    movlw   01111011B	;CCP low byte register. Lower byte of number timer is counting to
+    movlw   10111110B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
     call    CCP5_Enable_Timer
     
@@ -186,9 +179,7 @@ check_5:
     movwf   buttonval, A
     
     ; set counter max to 358
-    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
-    movwf   CCPR5H, A
-    movlw   01100110B	;CCP low byte register. Lower byte of number timer is counting to
+    movlw   10110011B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
     call    CCP5_Enable_Timer
     
@@ -204,9 +195,7 @@ check_6:
     movwf   buttonval, A
     
     ; set counter max to 338
-    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
-    movwf   CCPR5H, A
-    movlw   01010010B	;CCP low byte register. Lower byte of number timer is counting to
+    movlw   10101001B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
     call    CCP5_Enable_Timer
     
@@ -222,9 +211,7 @@ check_7:
     movwf   buttonval, A
     
     ; set counter max to 301
-    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
-    movwf   CCPR5H, A
-    movlw   00101101B	;CCP low byte register. Lower byte of number timer is counting to
+    movlw   10010110B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
     call    CCP5_Enable_Timer
     
@@ -240,9 +227,7 @@ check_8:
     movwf   buttonval, A
     
     ; set counter max to 284
-    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
-    movwf   CCPR5H, A
-    movlw   00011100B	;CCP low byte register. Lower byte of number timer is counting to
+    movlw   10001110B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
     call    CCP5_Enable_Timer
     
@@ -258,9 +243,7 @@ check_9:
     movwf   buttonval, A
     
     ; set counter max to 268
-    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
-    movwf   CCPR5H, A
-    movlw   00001100B	;CCP low byte register. Lower byte of number timer is counting to
+    movlw   10000110B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
     call    CCP5_Enable_Timer
     
@@ -322,9 +305,7 @@ check_D:
     movwf   buttonval, A
     
     ; set counter max to 253
-    movlw   00000000B	;CCP high byte register. Upper byte of number timer is counting to
-    movwf   CCPR5H, A
-    movlw   11111101B	;CCP low byte register. Lower byte of number timer is counting to
+    movlw   01111111B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
     call    CCP5_Enable_Timer
     
@@ -339,9 +320,7 @@ check_E:
     movwf   buttonval, A
     
     ; set counter max to 319
-    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
-    movwf   CCPR5H, A
-    movlw   00111111B	;CCP low byte register. Lower byte of number timer is counting to
+    movlw   10011111B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
     call    CCP5_Enable_Timer
     
@@ -356,9 +335,7 @@ check_F:
     movwf   buttonval, A
     
     ; set counter max to 402
-    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
-    movwf   CCPR5H, A
-    movlw   10010010B	;CCP low byte register. Lower byte of number timer is counting to
+    movlw   11001001B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
     call    CCP5_Enable_Timer
     
