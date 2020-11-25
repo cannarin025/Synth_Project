@@ -2,7 +2,7 @@
 	
 global	CCP5_Int_Hi, CCP6_Int_Hi, Wave_Setup, Wave_Check, sin_setup, sin_get_next_val
     
-extrn	check_nonote, sinArray
+extrn	check_nonote, sin_reset
 
 psect    udata_acs        ; named variables in access ram
     wavetype:		ds 1    ; reserve 1 byte for wavetype (saw = 0, square = 1)
@@ -148,7 +148,7 @@ sin_inc:
 sin_end:
 	retfie	f
 sin_rst:
-	lfsr	2, sinArray
+	call	sin_reset
 	movlw	64
 	movwf	wavecounter, A
 	bra	sin_end
