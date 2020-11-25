@@ -63,7 +63,7 @@ Keypad_Loop:
     call    check_nonote
     call    check_0    
     movff   keypadcolbits, keypadlastkey ;stores current key as last key for next cycle
-    bra	    Keypad_Loop
+    ;bra	    Keypad_Loop
     return
     
 check_samenote:

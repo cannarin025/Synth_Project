@@ -1,5 +1,5 @@
 #include <xc.inc>
-    extrn PWM_setup, PWM_set_note, PWM_play_note, PWM_stop_note, Keypad_Init, Keypad_Loop, CCP5_Setup, CCP5_Enable_Timer, CCP5_Disable_Timer, CCP6_Setup, CCP6_Enable_Timer, CCP6_Disable_Timer, CCP5_Int_Hi, CCP6_Int_Hi, Wave_Setup
+    extrn PWM_setup, PWM_set_note, PWM_play_note, PWM_stop_note, Keypad_Init, Keypad_Loop, CCP5_Setup, CCP5_Enable_Timer, CCP5_Disable_Timer, CCP6_Setup, CCP6_Enable_Timer, CCP6_Disable_Timer, CCP5_Int_Hi, CCP6_Int_Hi, Wave_Setup, sin_table_read
 
     psect    code, abs
     
@@ -19,14 +19,14 @@ start:
     clrf    TRISD, A 
     clrf    LATH, A
     clrf    LATD, A
-    ;call   PWM_setup
     call    Keypad_Init
     call    CCP5_Setup
     ;call    CCP6_Setup
     call    Wave_Setup
     ;call    CCP5_Enable_Timer
     ;call    CCP6_Enable_Timer
+    ;call    sin_table_read
 loop:
     call    Keypad_Loop
-    bra        loop
+    bra     loop
     goto $
