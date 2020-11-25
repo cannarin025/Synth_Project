@@ -23,8 +23,14 @@ CCP5_Setup: ;using timer 1
     movlw   00000000B	;CCP high byte register. Upper byte of number timer is counting to
     movwf   CCPR5H, A
     
-    ;movlw   00100100B	;CCP low byte register. Lower byte of number timer is counting to
-    ;movwf   CCPR5L, A
+;;    TROUBLESHOOTING SHIT:
+;    movlw   11101111B	;CCP low byte register. Lower byte of number timer is counting to
+;    movwf   CCPR5L, A
+;    movlw   00011010B	; Timer 1 config. Bit 6 set Fosc (1) or Fosc/4 (0). Bit 5-4 set timer prescale (lower is faster) 8: 11, 4: 10, 2: 01, 1: 00 .
+;    movwf   T1CON, A
+;    call    CCP5_Enable_Timer
+;    
+    ;==================
     
     bsf	    GIE		; Enable all interrupts
     bsf	    CCP5IE
@@ -40,6 +46,8 @@ CCP5_Enable_Timer:
     
 CCP5_Disable_Timer:
     bcf	    TMR1ON	; Turns off timer
+    movlw   0x00
+    movwf   PORTH, A
     return
 
 ;CCP6

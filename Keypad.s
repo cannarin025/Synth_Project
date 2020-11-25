@@ -18,6 +18,8 @@ keypadrowbits:	    ds 1    ; reserve 1 byte for keypad row value
 keypadcolbits:	    ds 1    ; reserve 1 byte for keypad column value
 keypadlastkey:	    ds 1    ; reserve 1 byte for last value fo keypad
     
+keypaddelay:	    ds 1 
+    
 psect    Keypad_code, class=CODE
 
 Keypad_Init:
@@ -26,7 +28,7 @@ Keypad_Init:
     clrf    LATE, A 
     
     movlw   0x00
-    movwf   TRISJ, A
+    movwf   TRISD, A
     
     movlw   0x00
     movwf   keypadlastkey, A	;stores value from last cycle (see keypad_get_output:)
@@ -73,12 +75,12 @@ check_samenote:
     return ;else if equal does nothing
     
 not_samenote:
-    movff   keypadcolbits, PORTJ ;if not equal, moves keypad value to PORTJ (output)
+    movff   keypadcolbits, PORTD ;if not equal, moves keypad value to PORTD (output)
     return
     
 check_nonote:
     movlw   0xFF    ;corresponds to keypress 0
-    cpfseq  PORTJ, A
+    cpfseq  PORTD, A
     return
     call    CCP5_Disable_Timer
     ;do things if button corresponds to 1
@@ -86,7 +88,7 @@ check_nonote:
     
 check_0:
     movlw   0xBE    ;corresponds to keypress 0
-    cpfseq  PORTJ, A
+    cpfseq  PORTD, A
     bra    check_1   
     ;do things if button corresponds to 1
     movlw   0x00    ;displays button value on buttonval
@@ -102,7 +104,7 @@ check_0:
     
 check_1:
     movlw   0x77    ;corresponds to keypress 1
-    cpfseq  PORTJ, A
+    cpfseq  PORTD, A
     bra    check_2
     
     ;do things if button corresponds to 1
@@ -123,7 +125,7 @@ check_1:
 
 check_2:
     movlw   0xB7    ;corresponds to keypress 2
-    cpfseq  PORTJ, A
+    cpfseq  PORTD, A
     bra   check_3
     
     ;do things if button corresponds to 2
@@ -139,7 +141,7 @@ check_2:
 
 check_3:
     movlw   0xD7    ;corresponds to keypress 3
-    cpfseq  PORTJ, A
+    cpfseq  PORTD, A
     bra    check_4
     
     ;do things if button corresponds to 3
@@ -155,7 +157,7 @@ check_3:
 
 check_4:
     movlw   0x7B    ;corresponds to keypress 4
-    cpfseq  PORTJ, A
+    cpfseq  PORTD, A
     bra    check_5
     
     ;do things if button corresponds to 4
@@ -171,7 +173,7 @@ check_4:
 
 check_5:
     movlw   0xBB    ;corresponds to keypress 5
-    cpfseq  PORTJ, A
+    cpfseq  PORTD, A
     bra    check_6
     
     ;do things if button corresponds to 5
@@ -187,7 +189,7 @@ check_5:
     
 check_6:
     movlw   0xDB    ;corresponds to keypress 6
-    cpfseq  PORTJ, A
+    cpfseq  PORTD, A
     bra	    check_7
     
     ;do things if button corresponds to 6
@@ -203,7 +205,7 @@ check_6:
 
 check_7:
     movlw   0x7D    ;corresponds to keypress 7
-    cpfseq  PORTJ, A
+    cpfseq  PORTD, A
     bra	    check_8
     
     ;do things if button corresponds to 7
@@ -219,7 +221,7 @@ check_7:
     
 check_8:
     movlw   0xBD    ;corresponds to keypress 8
-    cpfseq  PORTJ, A
+    cpfseq  PORTD, A
     bra	    check_9
     
     ;do things if button corresponds to 8
@@ -235,7 +237,7 @@ check_8:
     
 check_9:
     movlw   0xDD    ;corresponds to keypress 9
-    cpfseq  PORTJ, A
+    cpfseq  PORTD, A
     bra	    check_A
     
     ;do things if button corresponds to 9
@@ -251,7 +253,7 @@ check_9:
     
 check_A:
     movlw   0x7E    ;corresponds to keypress A
-    cpfseq  PORTJ, A
+    cpfseq  PORTD, A
     bra     check_B
     
     ;do things if button corresponds to A
@@ -267,7 +269,7 @@ check_A:
     
 check_B:
     movlw   0xDE    ;corresponds to keypress B
-    cpfseq  PORTJ, A
+    cpfseq  PORTD, A
     bra	    check_C
     ;do things if button corresponds to B
     movlw   0x0b   ;displays button value on portH
@@ -283,7 +285,7 @@ check_B:
     
 check_C:
     movlw   0xEE    ;corresponds to keypress C
-    cpfseq  PORTJ, A
+    cpfseq  PORTD, A
     bra    check_D
     ;do things if button corresponds to C
     movlw   0x0c   ;displays button value on portH
@@ -298,7 +300,7 @@ check_C:
     
 check_D:
     movlw   0xED    ;corresponds to keypress D
-    cpfseq  PORTJ, A
+    cpfseq  PORTD, A
     bra    check_E
     ;do things if button corresponds to D
     movlw   0x0e   ;displays button value on portH
@@ -313,7 +315,7 @@ check_D:
     
 check_E:
     movlw   0xEB    ;corresponds to keypress E
-    cpfseq  PORTJ, A
+    cpfseq  PORTD, A
     bra    check_F
     ;do things if button corresponds to E
     movlw   0x0E   ;displays button value on portH
@@ -328,7 +330,7 @@ check_E:
     
 check_F:
     movlw   0xE7    ;corresponds to keypress F
-    cpfseq  PORTJ, A
+    cpfseq  PORTD, A
     return
     ;do things if button corresponds to F
     movlw   0x0F   ;displays button value on portH
@@ -342,11 +344,11 @@ check_F:
     return
 
 delay:
-    movlw   0xFF
-    movwf   0x04, A
+    movlw   0x40
+    movwf   keypaddelay, A
     call    delay_loop
     return
 delay_loop:
-    decfsz  0x04, A
+    decfsz  keypaddelay, A
     bra	    delay_loop
     return
