@@ -12,9 +12,16 @@ CCP5_Setup: ;using timer 1
     
     
     ;Compare mode setup
-    bsf	    CCP5IP	;CCP5 high priority interrupt
-    movlw   11000000B	;Enabling intcon high and low priority interrupts
+;    bsf	    CCP5IP	;CCP5 high priority interrupt
+;    movlw   11000000B	;Enabling intcon high and low priority interrupts
+;    movwf   INTCON, A
+;    
+    bsf        CCP5IP    ;CCP5 high priority interrupt
+    movlw   11001000B    ;Enabling intcon high and low priority interrupts
     movwf   INTCON, A
+    
+    movlw   11111001B
+    movwf   INTCON2, A
     
     movlw   00001010B	;compare mode configuration to generate software interrupt on compare match
     movwf   CCP5CON, A

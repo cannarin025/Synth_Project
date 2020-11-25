@@ -2,7 +2,7 @@
 	
 global	CCP5_Int_Hi, CCP6_Int_Hi, Wave_Setup, Wave_Check, sin_setup, sin_get_next_val
     
-extrn	check_nonote
+extrn	check_nonote, sinArray
 
 psect    udata_acs        ; named variables in access ram
     wavetype:		ds 1    ; reserve 1 byte for wavetype (saw = 0, square = 1)
@@ -28,7 +28,7 @@ Wave_Setup:
 	movwf	tri, A
 	
 	movlw	0x08
-	movwf	sin
+	movwf	sin, A
 	
 	movlw	0x01
 	movwf	square, A
@@ -46,14 +46,27 @@ Wave_Check:
     movff   PORTJ, PORTG, A
     return
 
+;CCP5_Int_Hi:
+;	clrf	TMR1L, A		;resetting timer counters
+;	clrf	TMR1H, A	;resetting timer counters
+;	bcf	CCP5IF
+;	call	check_nonote
+;	;bra	sin_inc	    ;force sin wave
+
 CCP5_Int_Hi:
-	clrf	TMR1L, A		;resetting timer counters
-	clrf	TMR1H, A	;resetting timer counters
-	bcf	CCP5IF
-	call	check_nonote
-	;bra	sin_inc	    ;force sin wave
+    btfss    RBIF
+    bra    Timer_Int
+    bra    RB_Int
+
+Timer_Int:
+    clrf    TMR1L, A        ;resetting timer counters
+    clrf    TMR1H, A    ;resetting timer counters
+    bcf	    CCP5IF
+    call    check_nonote
+    ;bra    sin_inc        ;force sin wave
+    
 typecheck1:
-	movf	PORTJ, W, A
+	movf	wavetype, W, A
 	cpfseq	saw, A
 	bra	typecheck2
 	bra	saw_inc
@@ -63,8 +76,12 @@ typecheck2:
 	bra	square_inc
 typecheck3:
 	cpfseq	sin, A
-	bra	tri_inc
+	bra	typecheck4
 	bra	sin_inc
+	
+	return
+typecheck4:
+	bra	tri_inc
 	return
 	
 saw_inc:
@@ -131,11 +148,15 @@ sin_inc:
 sin_end:
 	retfie	f
 sin_rst:
-	call	sin_setup
+	lfsr	2, sinArray
 	movlw	64
 	movwf	wavecounter, A
 	bra	sin_end
-	
+
+RB_Int:
+    call    Wave_Check
+    bcf        RBIF
+    retfie    f
 
 CCP6_Int_Hi:
 	btfss	CCP6IF		; check that this is timer3 interrupt
