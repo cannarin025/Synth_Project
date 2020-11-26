@@ -44,32 +44,21 @@ Wave_Setup:
 Wave_Check:
     movff   PORTJ, wavetype, A
     movff   PORTJ, PORTG, A
+    ;movff   PORTB, PORTJ, A
     return
 
-;CCP5_Int_Hi:
-;	clrf	TMR1L, A		;resetting timer counters
-;	clrf	TMR1H, A	;resetting timer counters
-;	bcf	CCP5IF
-;	call	check_nonote
-;	;bra	sin_inc	    ;force sin wave
-
 CCP5_Int_Hi:
-    btfss    RBIF
-    bra    Timer_Int
-    bra    RB_Int
-
-Timer_Int:
-    clrf    TMR1L, A        ;resetting timer counters
-    clrf    TMR1H, A    ;resetting timer counters
-    bcf	    CCP5IF
-    call    check_nonote
-    ;bra    sin_inc        ;force sin wave
+	clrf	TMR1L, A		;resetting timer counters
+	clrf	TMR1H, A	;resetting timer counters
+	bcf	CCP5IF
+	call	check_nonote
+	;bra	sin_inc	    ;force sin wave
     
 typecheck1:
 	movf	wavetype, W, A
-	cpfseq	saw, A
+	cpfseq	tri, A
 	bra	typecheck2
-	bra	saw_inc
+	bra	tri_inc
 typecheck2:
 	cpfseq	square, A
 	bra	typecheck3
@@ -78,15 +67,13 @@ typecheck3:
 	cpfseq	sin, A
 	bra	typecheck4
 	bra	sin_inc
-	
-	return
+
 typecheck4:
-	bra	tri_inc
-	return
+	bra	saw_inc
 	
 saw_inc:
 	movlw	0x02
-	addwf	LATH, A ; clear interrupt flag
+	addwf	LATH, A 
 	retfie	f		; fast return from interrupt
 	
 square_inc:
@@ -94,7 +81,6 @@ square_inc:
 	bra	square_end
 	call	square_fliptest
 square_end:
-	;bcf	CCP5IF
 	retfie	f
 	
 square_fliptest:
@@ -120,7 +106,6 @@ tri_inc:
 	bra	tri_end
 	call	tri_fliptest
 tri_end:
-	;bcf	CCP5IF
 	retfie	f
 tri_fliptest:
 	movlw	0xFC
@@ -152,12 +137,7 @@ sin_rst:
 	movlw	64
 	movwf	wavecounter, A
 	bra	sin_end
-
-RB_Int:
-    call    Wave_Check
-    bcf        RBIF
-    retfie    f
-
+	
 CCP6_Int_Hi:
 	btfss	CCP6IF		; check that this is timer3 interrupt
 	retfie	f		; if not then return

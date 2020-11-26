@@ -12,32 +12,16 @@ CCP5_Setup: ;using timer 1
     
     
     ;Compare mode setup
-;    bsf	    CCP5IP	;CCP5 high priority interrupt
-;    movlw   11000000B	;Enabling intcon high and low priority interrupts
-;    movwf   INTCON, A
-;    
-    bsf        CCP5IP    ;CCP5 high priority interrupt
-    movlw   11001000B    ;Enabling intcon high and low priority interrupts
+    bsf	    CCP5IP	;CCP5 high priority interrupt
+    movlw   11000000B	;Enabling intcon high and low priority interrupts
     movwf   INTCON, A
-    
-    movlw   11111001B
-    movwf   INTCON2, A
     
     movlw   00001010B	;compare mode configuration to generate software interrupt on compare match
     movwf   CCP5CON, A
     
-    ;TEMPORARY HIGH BIT: REMOVE IT AS WE ONLY NEED CCPR5L
     movlw   00000000B	;CCP high byte register. Upper byte of number timer is counting to
     movwf   CCPR5H, A
     
-;;    TROUBLESHOOTING SHIT:
-;    movlw   11101111B	;CCP low byte register. Lower byte of number timer is counting to
-;    movwf   CCPR5L, A
-;    movlw   00011010B	; Timer 1 config. Bit 6 set Fosc (1) or Fosc/4 (0). Bit 5-4 set timer prescale (lower is faster) 8: 11, 4: 10, 2: 01, 1: 00 .
-;    movwf   T1CON, A
-;    call    CCP5_Enable_Timer
-;    
-    ;==================
     
     bsf	    GIE		; Enable all interrupts
     bsf	    CCP5IE
