@@ -1,4 +1,3 @@
-# Microprocessors
-Repository for Physics Year 3 microprocessors lab
+# Microprocessors Synth
 
-A simple assembly program for PIC18 microprocessor, that counts to 100, putting the current count value out onto PORTB
+A basic four-wavetable synth made for the PIC18F87K22

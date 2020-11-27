@@ -14,12 +14,11 @@
                    projectFiles="true">
       <itemPath>main.s</itemPath>
       <itemPath>config.s</itemPath>
-      <itemPath>PWM.s</itemPath>
-      <itemPath>CCP.s</itemPath>
-      <itemPath>ADC.s</itemPath>
       <itemPath>Interrupts.s</itemPath>
       <itemPath>Keypad.s</itemPath>
-      <itemPath>Tables.s</itemPath>
+      <itemPath>Compare.s</itemPath>
+      <itemPath>Sine.s</itemPath>
+      <itemPath>Waves.s</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

@@ -1,17 +1,10 @@
 #include <xc.inc>
 
-global Keypad_Init, Keypad_Loop, check_nonote
-extrn PWM_setup, PWM_set_note, PWM_play_note, PWM_stop_note, CCP5_Enable_Timer, CCP5_Disable_Timer
+global	Keypad_Init, Keypad_Loop, check_nonote
+extrn	CCP5_Enable_Timer, CCP5_Disable_Timer
     
     
 psect    udata_acs	    ; named variables in access ram
-delay_curr:	    ds 1    ; reserve 1 byte for current counter val
-delay_count1:	    ds 1    ; reserve 1 byte for counting
-delay_count2:	    ds 1    ; reserve 1 byte for counting
-delay_count3:	    ds 1    ; reserve 1 byte for counting
-wtemp:		    ds 1    ; reserve 1 byte for temp w val
-    
-shortdelay:	    ds 1    ; reserve 1 byte for the short delay countdown
     
 buttonval:	    ds 1    ; reserve 1 byte for the current button value (was PORTH)
 keypadrowbits:	    ds 1    ; reserve 1 byte for keypad row value
@@ -110,12 +103,7 @@ check_1:
     ;do things if button corresponds to 1
     movlw   0x01    ;displays button value on portH
     movwf   buttonval, A
-    
-    ; set counter max to 478
-;    movlw   00000001B	;CCP high byte register. Upper byte of number timer is counting to
-;    movwf   CCPR5H, A
-;    movlw   11011110B	;CCP low byte register. Lower byte of number timer is counting to
-;    movwf   CCPR5L, A
+
 
     movlw   11101111B	;CCP low byte register. Lower byte of number timer is counting to
     movwf   CCPR5L, A
